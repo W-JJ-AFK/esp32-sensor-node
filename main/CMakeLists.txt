@@ -1,0 +1,1 @@
+idf_component_register(SRCS "oled_main.c" "dht22.c" INCLUDE_DIRS ".")

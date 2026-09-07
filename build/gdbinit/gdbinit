@@ -1,0 +1,2 @@
+source D:/esp_projects/oled_test/build/gdbinit/symbols
+source D:/esp_projects/oled_test/build/gdbinit/connect
