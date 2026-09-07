@@ -1,5 +1,0 @@
-Command: ninja all
-ninja: error: WriteFile(.ninja_lock): Unable to create file. Permission denied
-ninja: error: WriteFile(.ninja_lock): Unable to create file. Permission denied
-ninja: error: WriteFile(.ninja_lock): Unable to create file. Permission denied
-ninja: error: WriteFile(.ninja_lock): Unable to create file. Permission denied
