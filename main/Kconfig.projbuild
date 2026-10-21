@@ -1,0 +1,60 @@
+menu "Edge Node Configuration"
+
+    config APP_WIFI_SSID
+        string "WiFi SSID"
+        default "YOUR_WIFI_SSID"
+        help
+            2.4GHz WiFi SSID. ESP32-S3 does not support 5GHz.
+
+    config APP_WIFI_PASSWORD
+        string "WiFi password"
+        default "YOUR_WIFI_PASSWORD"
+
+    config APP_MQTT_BROKER_URI
+        string "MQTT broker URI"
+        default "mqtt://192.168.1.100:1883"
+        help
+            Example: mqtt://192.168.1.100:1883
+            Use mqtts:// for TLS.
+
+    config APP_SNTP_SERVER
+        string "SNTP server"
+        default "ntp.aliyun.com"
+        help
+            用于同步墙上时间的 NTP 服务器。设备没有 RTC 电池，不同步时
+            timestamp 字段会被省略（Agent 回退到本地接收时间），
+            所以填错不会影响数据上报，只会影响时间戳。
+            留空则完全禁用 SNTP。
+            内网不通外网时可填本地 NTP，例如 192.168.1.1。
+
+    config APP_DEVICE_TEMP_ID
+        string "Temperature sensor device id"
+        default "temp_sensor_01"
+        help
+            Must match a device id in the agent registry (agent/config.yaml).
+
+    config APP_DEVICE_VIB_ID
+        string "Vibration sensor device id"
+        default "vibration_01"
+
+    config APP_TELEMETRY_PERIOD_MS
+        int "Telemetry publish period (ms)"
+        default 2000
+        range 500 60000
+
+    config APP_VIB_THRESHOLD_ON_MG
+        int "Vibration alarm enter threshold (milli-g)"
+        default 550
+        range 50 4000
+        help
+            Dynamic acceleration RMS threshold to enter WARNING/ALARM.
+            550 = 0.55 g.
+
+    config APP_VIB_THRESHOLD_OFF_MG
+        int "Vibration alarm exit threshold (milli-g)"
+        default 350
+        range 10 4000
+        help
+            Hysteresis exit threshold. Must be lower than the enter threshold.
+
+endmenu

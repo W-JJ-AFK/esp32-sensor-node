@@ -1,0 +1,16 @@
+# 固件仓库里曾经出现 dht22.c 被存成 GBK、partitions.csv 带 UTF-8 BOM 的问题，
+# 两者在 Linux/CI 上都会让编译器或 ESP-IDF 直接报错。这里统一钉死编码与换行。
+* text=auto eol=lf
+
+*.c      text eol=lf
+*.h      text eol=lf
+*.txt    text eol=lf
+*.cmake  text eol=lf
+*.csv    text eol=lf
+*.md     text eol=lf
+Kconfig* text eol=lf
+sdkconfig.defaults text eol=lf
+
+*.bin    binary
+*.elf    binary
+*.a      binary

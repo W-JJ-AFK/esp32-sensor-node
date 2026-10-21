@@ -1,0 +1,24 @@
+# ESP-IDF 构建产物
+build/
+sdkconfig
+sdkconfig.old
+managed_components/
+dependencies.lock
+*.bin
+*.elf
+*.map
+
+# 主机测试产物
+test/test_host
+test/test_host.exe
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+
+# macOS
+.DS_Store
+
+# zig / gcc 调试符号
+test/*.pdb

@@ -1,0 +1,50 @@
+name: build
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # 算法层是纯 C，不依赖 ESP-IDF，用主机 gcc 就能跑真实断言。
+  # 这一层跑得快（秒级），能在固件编译前拦住逻辑回归。
+  host-test:
+    name: 算法主机测试
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 编译并运行
+        run: make -C test
+
+  # 固件编译门禁：证明仓库能被 ESP-IDF 真正编译出来，
+  # 而不是「README 写了但代码不编译」。
+  firmware:
+    name: ESP-IDF 编译 (esp32s3)
+    runs-on: ubuntu-latest
+    # 固定 v5.3：这是本地真机验证过的版本（v5.3.2 + xtensa-esp-elf，
+    # 0 error / 0 warning 产出 iot_edge_node.bin）。不追最新版，
+    # 是因为"支持最新版"如果没人验证过，就只是简历上的一句虚标。
+    container: espressif/idf:release-v5.3
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 构建
+        shell: bash
+        run: |
+          . $IDF_PATH/export.sh
+          idf.py set-target esp32s3
+          idf.py build
+
+      - name: 输出体积
+        shell: bash
+        run: |
+          . $IDF_PATH/export.sh
+          idf.py size || true
+
+      - name: 检查产物
+        shell: bash
+        run: |
+          test -f build/iot_edge_node.bin
+          ls -lh build/*.bin build/*.elf
